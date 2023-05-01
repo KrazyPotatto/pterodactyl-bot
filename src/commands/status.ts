@@ -5,7 +5,7 @@ import type { ServerData, ServerResource } from "src/api/types";
 
 export const Status: Command = {
     name: 'status',
-    description: 'Returns the list of all servers',
+    description: 'Returns the current status of a server',
     options: [
         {
             name: "identifier", 

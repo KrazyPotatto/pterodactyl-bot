@@ -1,6 +1,7 @@
 import { Commands } from "./commands";
 import { Client, Partials } from "discord.js";
 import type { Interaction } from "discord.js";
+import {isAxiosError, AxiosError} from 'axios';
 
 console.log("Starting bot...");
 // Import .env files
@@ -28,9 +29,19 @@ client.on("interactionCreate", async(interaction: Interaction) => {
             return;
         }
 
-        await interaction.deferReply();
+        await interaction.deferReply({ephemeral: true});
 
-        slashCommand.run(client, interaction);
+        try {
+            slashCommand.run(client, interaction);
+        } catch (error) {
+            interaction.editReply("An unknown error occured");
+            if(isAxiosError(error)) {
+                let err: AxiosError = error;
+                console.error(err.response);
+            } else {
+                console.error(error);
+            }
+        }
     }
 });
 

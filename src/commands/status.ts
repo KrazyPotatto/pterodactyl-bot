@@ -16,6 +16,7 @@ export const Status: Command = {
         }
     ],
     type: ApplicationCommandType.ChatInput,
+    ephemeral: false,
     async run(client, interaction) {
         let identifier = interaction.options.get("identifier")?.value;
         identifier = identifier?.toString().trim() + "";

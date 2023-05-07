@@ -29,6 +29,7 @@ export const Power: Command = {
         }
     ],
     type: ApplicationCommandType.ChatInput,
+    ephemeral: false,
     async run(client, interaction) {
         const identifier = interaction.options.get("identifier")?.value?.toString().trim() + "";
 

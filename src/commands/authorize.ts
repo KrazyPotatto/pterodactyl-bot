@@ -20,6 +20,7 @@ export const Authorize: Command = {
             required: true,
         }
     ],
+    ephemeral: true,
     async run(client, interaction) {
         if(interaction.user.id != process.env.DISCORD_ADMIN_ID) {
             interaction.editReply("It seems you may not have the necessary permissions to execute this action.");

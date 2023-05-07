@@ -8,6 +8,7 @@ export const List: Command = {
     name: 'list',
     description: 'Returns the list of all servers',
     type: ApplicationCommandType.ChatInput,
+    ephemeral: true,
     async run(client, interaction) {
         let response = await applicationHttp.get("/servers");
         if(response.status == 200) {

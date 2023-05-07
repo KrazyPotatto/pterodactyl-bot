@@ -33,7 +33,7 @@ client.on("interactionCreate", async(interaction: Interaction) => {
             return;
         }
 
-        await interaction.deferReply({ephemeral: true});
+        await interaction.deferReply({ephemeral: slashCommand.ephemeral});
 
         try {
             slashCommand.run(client, interaction);

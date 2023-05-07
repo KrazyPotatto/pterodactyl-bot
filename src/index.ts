@@ -9,6 +9,10 @@ import dotenv from "dotenv";
 dotenv.config();
 dotenv.config({path: '.env.local', override: true});
 
+// Create all Mysql Tables (if not exists)
+import { createTables } from "./database/database-manager";
+createTables();
+
 const client = new Client({
     intents: [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 1048576, 2097152],
     partials: [Partials.Message, Partials.Channel, Partials.Reaction]

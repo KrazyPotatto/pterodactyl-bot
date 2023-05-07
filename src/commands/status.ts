@@ -2,6 +2,7 @@ import { Command } from "../commands";
 import { ApplicationCommandType, ApplicationCommandOptionType } from "discord.js";
 import { clientHttp } from '../api/http';
 import type { ServerData, ServerResource } from "src/api/types";
+import { hasPermission } from "../database/permission-manager";
 
 export const Status: Command = {
     name: 'status',
@@ -17,7 +18,12 @@ export const Status: Command = {
     type: ApplicationCommandType.ChatInput,
     async run(client, interaction) {
         let identifier = interaction.options.get("identifier")?.value;
-        identifier = identifier?.toString().trim();
+        identifier = identifier?.toString().trim() + "";
+
+        if(!await hasPermission({userId: interaction.user.id.toString(), serverId: identifier})) {
+            interaction.editReply("It seems you may not have the necessary permissions to execute this action.");
+            return;
+        }
 
         let resources = await clientHttp.get(`/servers/${identifier}/resources`);
         let server = await clientHttp.get(`/servers/${identifier}`);

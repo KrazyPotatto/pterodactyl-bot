@@ -2,6 +2,7 @@ import { Command } from "../commands";
 import { ApplicationCommandType, ApplicationCommandOptionType, CommandInteraction } from "discord.js";
 import { clientHttp } from '../api/http';
 import type { ServerResource } from "src/api/types";
+import { hasPermission } from "../database/permission-manager";
 const WebSocket  = require('ws');
 
 export const Power: Command = {
@@ -31,6 +32,11 @@ export const Power: Command = {
     async run(client, interaction) {
         let identifier = interaction.options.get("identifier")?.value;
         identifier = identifier?.toString().trim() + "";
+
+        if(!await hasPermission({userId: interaction.user.id.toString(), serverId: identifier})) {
+            interaction.editReply("It seems you may not have the necessary permissions to execute this action.");
+            return;
+        }
 
         let signal = interaction.options.get("signal")?.value;
         signal = signal?.toString().trim() + "";

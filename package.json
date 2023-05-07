@@ -13,6 +13,8 @@
     "axios": "^1.4.0",
     "discord.js": "^14.9.0",
     "dotenv": "^16.0.3",
+    "mysql": "github:mysqljs/mysql",
+    "mysql2": "^3.3.0",
     "ws": "^8.13.0"
   },
   "devDependencies": {

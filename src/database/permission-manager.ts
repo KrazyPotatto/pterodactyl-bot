@@ -15,4 +15,16 @@ async function getUsersPermissions(userId: string): Promise<IPermissionsRow[]> {
     return rows;
 }
 
-export {hasPermission, getUsersPermissions};
+async function addUserPermission({userId, serverId}: {userId: string, serverId: string}) {
+    let connection = await database();
+
+    await connection.execute("INSERT INTO permissions (server_id, user_id) VALUES (?, ?)", [serverId, userId]);
+}
+
+async function removeUserPermission({userId, serverId}: {userId: string, serverId: string}) {
+    let connection = await database();
+
+    await connection.execute("DELETE FROM permissions WHERE server_id = ? AND user_id = ?", [serverId, userId]);
+}
+
+export {hasPermission, getUsersPermissions, addUserPermission, removeUserPermission};

@@ -30,18 +30,22 @@ export const Power: Command = {
     ],
     type: ApplicationCommandType.ChatInput,
     async run(client, interaction) {
-        let identifier = interaction.options.get("identifier")?.value;
-        identifier = identifier?.toString().trim() + "";
+        const identifier = interaction.options.get("identifier")?.value?.toString().trim() + "";
 
         if(!await hasPermission({userId: interaction.user.id.toString(), serverId: identifier})) {
             interaction.editReply("It seems you may not have the necessary permissions to execute this action.");
             return;
         }
 
-        let signal = interaction.options.get("signal")?.value;
-        signal = signal?.toString().trim() + "";
+        const signal = interaction.options.get("signal")?.value?.toString().trim() + "";
 
-        let current :ServerResource = (await clientHttp.get(`/servers/${identifier}/resources`)).data;
+        let currentReq = (await clientHttp.get(`/servers/${identifier}/resources`));
+        let current: ServerResource = currentReq.data;
+
+        if(currentReq.status != 200) {
+            interaction.editReply("An error occured while attempting to send the `"+signal+"` power action.");
+            return;
+        }
 
         if(!["running", "offline"].includes(current.attributes.current_state)) {
             interaction.editReply("This server is already executing a power action. Aborting...");

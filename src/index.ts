@@ -22,7 +22,7 @@ client.on("ready", async() => {
 
     await client.application?.commands.set(Commands);
 
-    console.log("Bot is now online!");
+    console.log("Bot started successfully.");
 });
 
 client.on("interactionCreate", async(interaction: Interaction) => {
@@ -39,12 +39,7 @@ client.on("interactionCreate", async(interaction: Interaction) => {
             slashCommand.run(client, interaction);
         } catch (error) {
             interaction.editReply("An unknown error occured");
-            if(isAxiosError(error)) {
-                let err: AxiosError = error;
-                console.error(err.response);
-            } else {
-                console.error(error);
-            }
+            console.error(error);
         }
     }
 });

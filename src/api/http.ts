@@ -12,7 +12,8 @@ export const clientHttp :AxiosInstance = axios.create({
         'Authorization': 'Bearer ' + process.env.PTERODACTYL_CLIENT_KEY,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-    }
+    },
+    validateStatus: (status) => true 
 });
 
 export const applicationHttp :AxiosInstance = axios.create({
@@ -21,5 +22,6 @@ export const applicationHttp :AxiosInstance = axios.create({
         'Authorization': 'Bearer ' + process.env.PTERODACTYL_APP_KEY,
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-    }
+    },
+    validateStatus: (status) => true 
 });

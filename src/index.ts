@@ -44,4 +44,8 @@ client.on("interactionCreate", async(interaction: Interaction) => {
     }
 });
 
+client.on('invalidated', () => {
+    process.exit(1);
+});
+
 client.login(process.env.DISCORD_TOKEN);

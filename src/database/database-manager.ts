@@ -1,16 +1,32 @@
 import mysql from 'mysql2/promise';
 
 let _database : mysql.Connection | undefined;
+
+async function createConnection(): Promise<mysql.Connection> {
+  return await mysql.createConnection({
+      host: process.env.DATABASE_HOST,
+      port: parseInt(process.env.DATABASE_PORT!),
+      database: process.env.DATABASE_NAME,
+      user: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+  });
+}
+
+async function validateConnection() {
+   try {
+      await _database?.execute("SELECT 1");
+   } catch (e) {
+      _database = await createConnection();
+   }
+}
+
 async function database (): Promise<mysql.Connection> {
    if(!_database) {
-      _database = await mysql.createConnection({
-         host: process.env.DATABASE_HOST,
-         port: parseInt(process.env.DATABASE_PORT!),
-         database: process.env.DATABASE_NAME,
-         user: process.env.DATABASE_USER,
-         password: process.env.DATABASE_PASSWORD,
-     });
+      _database = await createConnection();
    }
+
+   await validateConnection();
+
    return _database;
 }
 

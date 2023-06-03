@@ -1,7 +1,7 @@
-import { Commands } from "./commands";
+import "module-alias/register";
+import { Commands } from "@/commands";
 import { Client, Partials } from "discord.js";
 import type { Interaction } from "discord.js";
-import {isAxiosError, AxiosError} from 'axios';
 
 console.log("Starting bot...");
 // Import .env files

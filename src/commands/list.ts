@@ -1,8 +1,8 @@
-import { Command } from "../commands";
+import { Command } from "@/commands";
 import { ApplicationCommandType } from "discord.js";
-import { applicationHttp } from '../api/http';
-import type { List as ListType, ServerData } from "../api/types";
-import { getUsersPermissions } from "../database/permission-manager";
+import { applicationHttp } from '@/api/http';
+import type { List as ListType, ServerData } from "@/api/types";
+import { getUsersPermissions } from "@/database/permission-manager";
 
 export const List: Command = {
     name: 'list',

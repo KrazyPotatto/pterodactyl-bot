@@ -10,6 +10,9 @@ dependencies:
   dotenv:
     specifier: ^16.0.3
     version: 16.0.3
+  module-alias:
+    specifier: ^2.2.2
+    version: 2.2.2
   mysql:
     specifier: github:mysqljs/mysql
     version: github.com/mysqljs/mysql/dc9c152a87ec51a1f647447268917243d2eab1fd
@@ -26,6 +29,9 @@ optionalDependencies:
     version: 6.0.3
 
 devDependencies:
+  '@types/module-alias':
+    specifier: ^2.0.1
+    version: 2.0.1
   '@types/node':
     specifier: ^18.16.3
     version: 18.16.3
@@ -141,6 +147,10 @@ packages:
 
   /@tsconfig/node16@1.0.3:
     resolution: {integrity: sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==}
+    dev: true
+
+  /@types/module-alias@2.0.1:
+    resolution: {integrity: sha512-DN/CCT1HQG6HquBNJdLkvV+4v5l/oEuwOHUPLxI+Eub0NED+lk0YUfba04WGH90EINiUrNgClkNnwGmbICeWMQ==}
     dev: true
 
   /@types/node@18.16.3:
@@ -350,6 +360,10 @@ packages:
     engines: {node: '>= 0.6'}
     dependencies:
       mime-db: 1.52.0
+    dev: false
+
+  /module-alias@2.2.2:
+    resolution: {integrity: sha512-A/78XjoX2EmNvppVWEhM2oGk3x4lLxnkEA4jTbaK97QKSDjkIoOsKQlfylt/d3kKKi596Qy3NP5XrXJ6fZIC9Q==}
     dev: false
 
   /mysql2@3.3.0:

@@ -1,8 +1,8 @@
-import { Command } from "../commands";
+import { Command } from "@/commands";
 import { ApplicationCommandType, ApplicationCommandOptionType } from "discord.js";
-import { clientHttp } from '../api/http';
-import type { ServerData, ServerResource } from "src/api/types";
-import { hasPermission } from "../database/permission-manager";
+import { clientHttp } from '@/api/http';
+import type { ServerData, ServerResource } from "@/api/types";
+import { hasPermission } from "@/database/permission-manager";
 
 export const Status: Command = {
     name: 'status',

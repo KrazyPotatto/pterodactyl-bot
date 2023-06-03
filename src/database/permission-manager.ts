@@ -1,5 +1,5 @@
-import type { IPermissionsRow, IdOnly } from './database-types';
-import { database } from './database-manager';
+import type { IPermissionsRow, IdOnly } from '@/database/database-types';
+import { database } from '@/database/database-manager';
 
 async function hasPermission({userId, serverId}: {userId: string, serverId: string}): Promise<boolean> {
     let connection = await database();

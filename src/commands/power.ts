@@ -1,8 +1,8 @@
-import { Command } from "../commands";
+import { Command } from "@/commands";
 import { ApplicationCommandType, ApplicationCommandOptionType, CommandInteraction } from "discord.js";
-import { clientHttp } from '../api/http';
-import type { ServerResource } from "src/api/types";
-import { hasPermission } from "../database/permission-manager";
+import { clientHttp } from '@/api/http';
+import type { ServerResource } from "@/api/types";
+import { hasPermission } from "@/database/permission-manager";
 const WebSocket  = require('ws');
 
 export const Power: Command = {

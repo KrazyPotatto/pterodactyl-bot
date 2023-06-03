@@ -1,6 +1,6 @@
-import { Command } from "../commands";
+import { Command } from "@/commands";
 import { ApplicationCommandType, ApplicationCommandOptionType } from "discord.js";
-import { hasPermission, addUserPermission, removeUserPermission } from "../database/permission-manager";
+import { hasPermission, addUserPermission, removeUserPermission } from "@/database/permission-manager";
 
 export const Authorize: Command = {
     name: 'authorize',

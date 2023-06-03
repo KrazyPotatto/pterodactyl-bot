@@ -3,6 +3,7 @@ import { ApplicationCommandType, ApplicationCommandOptionType } from "discord.js
 import { clientHttp } from '@/api/http';
 import type { ServerData, ServerResource } from "@/api/types";
 import { hasPermission } from "@/database/permission-manager";
+import PowerEmbed, { getPowerStatus } from "@/utils/PowerEmbed";
 
 export const Status: Command = {
     name: 'status',
@@ -32,14 +33,9 @@ export const Status: Command = {
             let res :ServerResource  = resources.data;
             let ser :ServerData      = server.data;
             
-            interaction.editReply(getStatusEmoji(res.attributes.current_state) +" > **" + ser.attributes.name + "** is *" + res.attributes.current_state + "*.");
-
+            interaction.editReply({embeds: [PowerEmbed(getPowerStatus(res.attributes.current_state), ser)]});
         } else {
             interaction.editReply("An unknown error occured");
         }
     },
-}
-
-function getStatusEmoji(status: string): string {
-    return status.toLowerCase() == "running" ? "✅" : "🛑";
 }

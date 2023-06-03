@@ -1,8 +1,9 @@
 import { Command } from "@/commands";
 import { ApplicationCommandType, ApplicationCommandOptionType, CommandInteraction } from "discord.js";
 import { clientHttp } from '@/api/http';
-import type { ServerResource } from "@/api/types";
+import type { ServerResource, ServerData } from "@/api/types";
 import { hasPermission } from "@/database/permission-manager";
+import PowerEmbed, { getPowerStatus } from "@/utils/PowerEmbed";
 const WebSocket  = require('ws');
 
 export const Power: Command = {
@@ -41,9 +42,11 @@ export const Power: Command = {
         const signal = interaction.options.get("signal")?.value?.toString().trim() + "";
 
         let currentReq = (await clientHttp.get(`/servers/${identifier}/resources`));
+        let server = await clientHttp.get(`/servers/${identifier}`);
         let current: ServerResource = currentReq.data;
+        let ser :ServerData      = server.data;
 
-        if(currentReq.status != 200) {
+        if(currentReq.status != 200 || server.status != 200) {
             interaction.editReply("An error occured while attempting to send the `"+signal+"` power action.");
             return;
         }
@@ -69,7 +72,7 @@ export const Power: Command = {
         
         if(power.status == 204) {
             interaction.editReply("The `"+signal+"` power action successfully sent to the server.");
-            await listenWebsocketForServer(interaction, identifier, getDesiredState(signal));
+            await listenWebsocketForServer(interaction, identifier, getDesiredState(signal), ser);
         } else {
             interaction.editReply("An error occured while attempting to send the `"+signal+"` power action.");
         }
@@ -93,7 +96,7 @@ async function getWebsocketToken(identifier: string) :Promise<WsToken> {
     return (await clientHttp.get(`/servers/${identifier}/websocket`)).data;
 }
 
-async function listenWebsocketForServer(interaction: CommandInteraction, identifier:string, desiredState: string) {
+async function listenWebsocketForServer(interaction: CommandInteraction, identifier:string, desiredState: string, server: ServerData) {
     let token = await getWebsocketToken(identifier);
     
     const authMsg = (token :string) => {
@@ -103,7 +106,6 @@ async function listenWebsocketForServer(interaction: CommandInteraction, identif
         };
         return msg;
     };
-
     let ws = new WebSocket(token.data.socket, {origin: process.env.PTERODACTYL_URL});
 
     ws.on('open', () => {
@@ -114,7 +116,7 @@ async function listenWebsocketForServer(interaction: CommandInteraction, identif
         let msg: WsMsg = JSON.parse(data.toString());
         if(msg.event == "status") {
             let newStatus = msg.args![0];
-            interaction.editReply("The server is now *" + newStatus + "*");
+            interaction.editReply({embeds: [PowerEmbed(getPowerStatus(newStatus!), server)]});
             if(newStatus == desiredState) {
                 ws.close();
             }

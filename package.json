@@ -10,22 +10,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.4.0",
-    "discord.js": "^14.9.0",
-    "dotenv": "^16.0.3",
-    "module-alias": "^2.2.2",
+    "axios": "^1.7.7",
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "module-alias": "^2.2.3",
     "mysql": "github:mysqljs/mysql",
-    "mysql2": "^3.3.0",
-    "ws": "^8.13.0"
+    "mysql2": "^3.11.4",
+    "ws": "^8.18.0"
   },
   "devDependencies": {
-    "@types/module-alias": "^2.0.1",
-    "@types/node": "^18.16.3",
-    "ts-node": "^10.9.1",
-    "typescript": "^5.0.4"
+    "@types/module-alias": "^2.0.4",
+    "@types/node": "^18.19.64",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
   },
   "optionalDependencies": {
-    "utf-8-validate": "^6.0.3"
+    "utf-8-validate": "^6.0.5"
   },
   "_moduleAliases": {
     "@": "src/"

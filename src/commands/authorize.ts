@@ -28,7 +28,7 @@ export const Authorize: Command = {
         }
 
         const identifier = interaction.options.get("identifier")?.value?.toString().trim() + "";
-        const user = interaction.options.getUser("person");
+        const user = interaction.options.get("person")?.user;
 
         if(!user) {
             interaction.editReply("No user was passed. Cannot continue.");

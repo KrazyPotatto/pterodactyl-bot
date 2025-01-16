@@ -3,8 +3,8 @@ import { ApplicationCommandType, ApplicationCommandOptionType, CommandInteractio
 import { clientHttp } from '@/api/http';
 import type { ServerResource, ServerData } from "@/api/types";
 import { hasPermission } from "@/database/permission-manager";
-import PowerEmbed, { getPowerStatus } from "@/utils/PowerEmbed";
-const WebSocket  = require('ws');
+import { listenWebsocketForServer } from "@/utils/WebsocketUpdate";
+import { getDesiredState } from "@/utils/PowerButtons";
 
 export const Power: Command = {
     name: 'power',
@@ -77,66 +77,4 @@ export const Power: Command = {
             interaction.editReply("An error occured while attempting to send the `"+signal+"` power action.");
         }
     },
-}
-
-function getDesiredState(signal :string): string {
-    switch(signal) {
-        case 'kill': 
-        case 'stop':
-            return "offline";
-        case 'restart':
-        case 'start':
-            return "running";
-        default:
-            return "";
-    }
-}
-
-async function getWebsocketToken(identifier: string) :Promise<WsToken> {
-    return (await clientHttp.get(`/servers/${identifier}/websocket`)).data;
-}
-
-async function listenWebsocketForServer(interaction: CommandInteraction, identifier:string, desiredState: string, server: ServerData) {
-    let token = await getWebsocketToken(identifier);
-    
-    const authMsg = (token :string) => {
-        let msg :WsMsg = {
-            event: "auth",
-            args: [token]
-        };
-        return msg;
-    };
-    let ws = new WebSocket(token.data.socket, {origin: process.env.PTERODACTYL_URL});
-
-    ws.on('open', () => {
-        ws.send(JSON.stringify(authMsg(token.data.token)));
-    });
-
-    ws.on('message', (data: any) => {
-        let msg: WsMsg = JSON.parse(data.toString());
-        if(msg.event == "status") {
-            let newStatus = msg.args![0];
-            interaction.editReply({embeds: [PowerEmbed(getPowerStatus(newStatus!), server)]});
-            if(newStatus == desiredState) {
-                ws.close();
-            }
-        } else if(msg.event == "token expiring") {
-            getWebsocketToken(identifier).then(res => {
-                token = res;
-                ws.send(JSON.stringify(authMsg(res.data.token)));
-            });
-        }
-    });
-}
-
-type WsMsg = {
-    event: string,
-    args?: string[]|[null]
-}
-
-type WsToken = {
-    data: {
-        token: string,
-        socket: string
-    }
 }
